@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 .scrollbar-none {
@@ -7,4 +8,118 @@
 
 .scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+.receipt-print {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .receipt-print,
+  .receipt-print * {
+    visibility: visible;
+  }
+
+  .receipt-print {
+    display: block;
+    width: 72mm;
+    margin: 0 auto;
+    padding: 5mm 3mm;
+    color: #000;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+  }
+
+  .receipt-screen {
+    display: none !important;
+  }
+
+  .receipt-print-header {
+    text-align: center;
+  }
+
+  .receipt-print-header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .receipt-print-header p {
+    margin: 2px 0 0;
+    font-size: 11px;
+  }
+
+  .receipt-print-divider {
+    margin: 8px 0;
+    border-top: 1px dashed #000;
+  }
+
+  .receipt-print-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .receipt-print-info div,
+  .receipt-print-summary div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .receipt-print-items {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .receipt-print-item {
+    display: grid;
+    grid-template-columns: 1fr 30px 70px;
+    gap: 5px;
+  }
+
+  .receipt-print-item span:nth-child(2) {
+    text-align: center;
+  }
+
+  .receipt-print-item span:last-child {
+    text-align: right;
+  }
+
+  .receipt-print-item-header {
+    font-weight: 700;
+  }
+
+  .receipt-print-total {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .receipt-print-footer {
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .receipt-print-footer p {
+    margin: 2px 0;
+  }
 }
