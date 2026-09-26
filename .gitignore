@@ -1,3 +1,7 @@
 .env
 node_modules/
 dist/
+Migrations/
+obj/
+bin/
+/wwwroot
