@@ -67,7 +67,7 @@ public class AuthService
 
         return new AuthResponse
         {
-            Token = string.Empty,
+            Token = "test-token",
             Username = user.Username
         };
     }
