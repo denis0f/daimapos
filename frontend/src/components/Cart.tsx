@@ -20,13 +20,15 @@ function Cart({
     0
   )
 
-  const getImageUrl = (imageUrl: string) => {
-    if (imageUrl.startsWith('http')) {
-      return imageUrl
-    }
+  // const getImageUrl = (imageUrl: string) => {
+  //   if (imageUrl.startsWith('http')) {
+  //     return imageUrl
+  //   }
 
-    return `${import.meta.env.VITE_API_URL}${imageUrl}`
-  }
+  //   return `${import.meta.env.VITE_API_URL}${imageUrl}`
+  // }
+  // imageurl = getImageUrl("");
+  
 
   return (
     <aside className="fixed right-0 top-0 z-40 flex h-screen w-80 flex-col bg-white shadow-2xl">

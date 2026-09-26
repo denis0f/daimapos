@@ -110,13 +110,13 @@ function Products() {
     })
   }
 
-  const getImageUrl = (imageUrl: string) => {
-    if (imageUrl.startsWith('http')) {
-      return imageUrl
-    }
+  // const getImageUrl = (imageUrl: string) => {
+  //   if (imageUrl.startsWith('http')) {
+  //     return imageUrl
+  //   }
 
-    return `${import.meta.env.VITE_API_URL}${imageUrl}`
-  }
+  //   return `${import.meta.env.VITE_API_URL}${imageUrl}`
+  // }
 
   return (
     <div
