@@ -1,56 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Cart from '../components/Cart'
+import { productService } from '../services/productService'
 import type { CartItem, Product } from '../types/Product'
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Blue Band',
-    price: 350,
-    stock: 24,
-    image: 'https://images.unsplash.com/photo-1606851094655-b2594a6a4f6b?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 2,
-    name: 'Milk',
-    price: 120,
-    stock: 18,
-    image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 3,
-    name: 'Sugar',
-    price: 500,
-    stock: 12,
-    image: 'https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 4,
-    name: 'Cooking Oil',
-    price: 750,
-    stock: 15,
-    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 5,
-    name: 'Rice',
-    price: 280,
-    stock: 30,
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    id: 6,
-    name: 'Wheat Flour',
-    price: 190,
-    stock: 20,
-    image: 'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?auto=format&fit=crop&w=600&q=80',
-  },
-]
-
 function Products() {
+  const navigate = useNavigate()
+  const [products, setProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [cartOpen, setCartOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true)
+        setError('')
+
+        const data = await productService.getProducts()
+
+        setProducts(data)
+      } catch {
+        setError('Failed to load products.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
 
   const filteredProducts = products.filter((product) =>
     product.name
@@ -119,7 +99,23 @@ function Products() {
   }
 
   const handleCheckout = () => {
-    setCartOpen(false)
+    if (cartItems.length === 0) {
+      return
+    }
+
+    navigate('/checkout', {
+      state: {
+        items: cartItems,
+      },
+    })
+  }
+
+  const getImageUrl = (imageUrl: string) => {
+    if (imageUrl.startsWith('http')) {
+      return imageUrl
+    }
+
+    return `${import.meta.env.VITE_API_URL}${imageUrl}`
   }
 
   return (
@@ -173,13 +169,31 @@ function Products() {
         <input
           type="text"
           value={searchTerm}
-          onChange={(event) => setSearchTerm(event.currentTarget.value)}
+          onChange={(event) =>
+            setSearchTerm(event.currentTarget.value)
+          }
           placeholder="Search products..."
           className="w-full rounded-lg border border-[#d8c8bd] bg-white px-4 py-3 text-[#4a2c20] outline-none focus:border-[#8b5e3c] focus:ring-2 focus:ring-[#8b5e3c]/20"
         />
       </div>
 
-      {filteredProducts.length === 0 ? (
+      {loading && (
+        <div className="rounded-xl bg-white px-6 py-12 text-center shadow-sm">
+          <p className="text-[#7a6258]">
+            Loading products...
+          </p>
+        </div>
+      )}
+
+      {!loading && error && (
+        <div className="rounded-xl bg-white px-6 py-12 text-center shadow-sm">
+          <p className="font-semibold text-red-600">
+            {error}
+          </p>
+        </div>
+      )}
+
+      {!loading && !error && filteredProducts.length === 0 && (
         <div className="rounded-xl bg-white px-6 py-12 text-center shadow-sm">
           <p className="text-lg font-semibold text-[#4a2c20]">
             No products found
@@ -189,7 +203,9 @@ function Products() {
             Try searching for a different product name.
           </p>
         </div>
-      ) : (
+      )}
+
+      {!loading && !error && filteredProducts.length > 0 && (
         <div
           className={`grid grid-cols-1 gap-5 sm:grid-cols-2 ${
             cartOpen
@@ -204,7 +220,7 @@ function Products() {
             >
               <div className="h-40 w-full overflow-hidden">
                 <img
-                  src={product.image}
+                  src={getImageUrl(product.imageUrl)}
                   alt={product.name}
                   className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
                 />
@@ -227,7 +243,8 @@ function Products() {
 
                 <button
                   onClick={() => addToCart(product)}
-                  className="mt-3 w-full rounded-lg bg-[#6b3f2a] py-2.5 font-semibold text-white transition hover:bg-[#4a2c20]"
+                  disabled={product.stock === 0}
+                  className="mt-3 w-full rounded-lg bg-[#6b3f2a] py-2.5 font-semibold text-white transition hover:bg-[#4a2c20] disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Add to Cart
                 </button>

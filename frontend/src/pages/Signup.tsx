@@ -29,7 +29,6 @@ function Signup() {
         fullName,
         username,
         password,
-        confirmPassword,
       })
 
       navigate('/login')

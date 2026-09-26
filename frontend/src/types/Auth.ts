@@ -2,7 +2,6 @@ export interface RegisterRequest {
   fullName: string
   username: string
   password: string
-  confirmPassword: string
 }
 
 export interface LoginRequest {
