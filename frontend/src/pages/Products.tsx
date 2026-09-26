@@ -220,7 +220,7 @@ function Products() {
             >
               <div className="h-40 w-full overflow-hidden">
                 <img
-                  src={getImageUrl(product.imageUrl)}
+                  src={product.imageUrl}
                   alt={product.name}
                   className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
                 />

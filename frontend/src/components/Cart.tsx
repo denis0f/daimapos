@@ -68,7 +68,7 @@ function Cart({
                 >
                   <div className="flex items-center gap-2">
                     <img
-                      src={getImageUrl(item.product.imageUrl)}
+                      src={item.product.imageUrl}
                       alt={item.product.name}
                       className="h-9 w-9 shrink-0 rounded-full object-cover"
                     />
