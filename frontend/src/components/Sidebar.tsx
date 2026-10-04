@@ -28,6 +28,10 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
       label: 'Statistics',
       path: '/stats',
     },
+    {
+      label: 'Manage Users',
+      path: '/users',
+    },
   ]
 
   return (

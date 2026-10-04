@@ -7,6 +7,7 @@ import ProductManagement from './pages/ProductManagement'
 import Products from './pages/Products'
 import Signup from './pages/Signup'
 import Stats from './pages/Stats'
+import Users from './pages/Users'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             element={<ProductManagement />}
           />
           <Route path="/stats" element={<Stats />} />
+          <Route path="/users" element={<Users />} />
         </Route>
       </Route>
 
