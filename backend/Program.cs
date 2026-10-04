@@ -19,6 +19,7 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<InventoryService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<StatisticsService>();
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddCors(options =>
 {
